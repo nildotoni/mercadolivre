@@ -10,15 +10,15 @@ import br.com.zup.mercadolivre.validators.Unico;
 
 public class usuarioForm {
 	
-	@Email(message="Por Favor, digite um email válido")
-	@NotNull (message="Por favor digite o email de login")
-	@NotEmpty(message="Por favor digite o email de login")
-	@Unico(atributo = "email", classe= Usuario.class, message="E-mail já existe")
+	@Email
+	@NotNull
+	@NotEmpty
+	@Unico(atributo = "email", classe= Usuario.class) 
 	private String email;
 	
-	@NotNull (message="Por favor digite a senha")
-	@NotEmpty(message="Por favor digite a senha	")
-	@SenhaMin(message="Por favor informe uma senha maior que 6 caracteres")
+	@NotNull
+	@NotEmpty
+	@SenhaMin
 	private String senha;
 
 	public String getEmail() {

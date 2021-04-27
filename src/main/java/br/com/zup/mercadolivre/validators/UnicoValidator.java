@@ -9,7 +9,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.util.Assert;
-
+//1
 public class UnicoValidator implements ConstraintValidator<Unico, Object>{
 
 	private String atributo;
@@ -25,6 +25,7 @@ public class UnicoValidator implements ConstraintValidator<Unico, Object>{
 	}
 	
 	@Override
+	//1
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		Query query = manager.createQuery("select 1 from "+classe.getName()+" where "+atributo+"=:value");
 		query.setParameter("value", value);
