@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.zup.mercadolivre.dto.Usuario;
 import br.com.zup.mercadolivre.dto.usuarioForm;
-import br.com.zup.mercadolivre.model.Usuario;
 
 @RestController
 @RequestMapping("/usuario")

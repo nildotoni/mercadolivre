@@ -1,4 +1,4 @@
-package br.com.zup.mercadolivre.model;
+package br.com.zup.mercadolivre.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

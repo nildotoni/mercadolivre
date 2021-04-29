@@ -4,7 +4,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.zup.mercadolivre.model.Usuario;
 import br.com.zup.mercadolivre.validators.SenhaMin;
 import br.com.zup.mercadolivre.validators.Unico;
 
