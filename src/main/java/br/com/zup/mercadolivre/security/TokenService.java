@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import br.com.zup.mercadolivre.dto.Usuario;
+import br.com.zup.mercadolivre.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

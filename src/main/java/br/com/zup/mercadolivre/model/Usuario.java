@@ -1,4 +1,4 @@
-package br.com.zup.mercadolivre.dto;
+package br.com.zup.mercadolivre.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -14,24 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.zup.mercadolivre.dto.usuarioForm;
-import br.com.zup.mercadolivre.model.Usuario;
+import br.com.zup.mercadolivre.dto.CaracteristicaForm;
+import br.com.zup.mercadolivre.model.Caracteristica;
 
 @RestController
-@RequestMapping("/usuario")
-public class UsuarioController {
-	
+@RequestMapping("/caracteristica")
+public class CaracteristicasController {
+
 	@PersistenceContext
-	private EntityManager manager;
-	
+	private EntityManager entityManager;
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> cadastroUsuario(@Valid @RequestBody usuarioForm form, UriComponentsBuilder uriBuilder){
-		Usuario usuario = form.converter();
-		manager.persist(usuario);
-		URI uri = uriBuilder.path("/CadastroUsuario/{id}").buildAndExpand(usuario.getId()).toUri();
-		return ResponseEntity.created(uri).body(usuario);
+	public ResponseEntity<?> cadastroCaracteristica(@Valid @RequestBody CaracteristicaForm form,UriComponentsBuilder uriBuilder){
+		Caracteristica caracteristica = form.converter(entityManager);
+		entityManager.persist(caracteristica);
+		URI uri = uriBuilder.path("/caracteristica/{id}").buildAndExpand(caracteristica.getId()).toUri();
+		return ResponseEntity.created(uri).body(caracteristica);
 	}
-
+	
 }

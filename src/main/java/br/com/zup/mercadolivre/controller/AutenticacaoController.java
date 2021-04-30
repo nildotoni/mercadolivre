@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zup.mercadolivre.dto.Login;
 import br.com.zup.mercadolivre.dto.TokenDto;
+import br.com.zup.mercadolivre.model.Login;
 import br.com.zup.mercadolivre.security.TokenService;
 
 @RestController

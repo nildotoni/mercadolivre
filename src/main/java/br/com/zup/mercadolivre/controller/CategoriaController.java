@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.zup.mercadolivre.dto.Categoria;
 import br.com.zup.mercadolivre.dto.CategoriaForm;
+import br.com.zup.mercadolivre.model.Categoria;
 import br.com.zup.mercadolivre.repository.CategoriaRepository;
 
 @RestController

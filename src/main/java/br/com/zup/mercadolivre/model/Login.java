@@ -1,4 +1,4 @@
-package br.com.zup.mercadolivre.dto;
+package br.com.zup.mercadolivre.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

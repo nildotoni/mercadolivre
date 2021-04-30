@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import br.com.zup.mercadolivre.model.Categoria;
 import br.com.zup.mercadolivre.repository.CategoriaRepository;
 import br.com.zup.mercadolivre.validators.Unico;
 
