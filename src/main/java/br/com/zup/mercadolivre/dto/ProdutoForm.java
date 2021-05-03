@@ -12,6 +12,8 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import br.com.zup.mercadolivre.model.Produto;
+import br.com.zup.mercadolivre.model.Usuario;
+import br.com.zup.mercadolivre.repository.UsuarioRepository;
 import io.jsonwebtoken.lang.Assert;
 import br.com.zup.mercadolivre.controller.CaracteristicaRepository;
 import br.com.zup.mercadolivre.model.Caracteristica;
@@ -80,13 +82,12 @@ public class ProdutoForm {
 		return listaCaracteristicas;
 	}
 
-	public Produto converter(CaracteristicaRepository cr, EntityManager em) {
-		//Assert.isTrue(caracteristicas.size() < 3, "Caracteristicas não pode ser menor que 3");
+	public Produto converter(CaracteristicaRepository cr, EntityManager em, UsuarioRepository ur) {
+		Optional<Usuario> dono = ur.findByEmail("nildo@email.com");
 		List<Caracteristica> listaCaracteristicas = listaCaracteristicas(caracteristicas, cr);
 		List<Caracteristica> listaOutrasCaracteristicas = listaCaracteristicas(outrascaracteristicas, cr);
 		Categoria categoria = em.find(Categoria.class, categoria_id);
-		Produto produto = new Produto(nome,valor,quantidade,descricao,categoria,listaCaracteristicas,listaOutrasCaracteristicas);
-		return produto;
+		return new Produto(dono.get(),nome,valor,quantidade,descricao,categoria,listaCaracteristicas,listaOutrasCaracteristicas);
 	}
 
 }

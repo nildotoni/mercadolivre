@@ -1,16 +1,21 @@
 package br.com.zup.mercadolivre.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -44,6 +49,18 @@ public class Produto {
 	@ManyToMany
 	private List<Caracteristica> outrasCaracteristicas;
 	
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+	private Set<ImagemProduto> imagens = new HashSet<>();
+	
+	@NotNull
+	@Valid
+	@ManyToOne
+	private Usuario dono;
+	
+	public Usuario getDono() {
+		return dono;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -78,7 +95,7 @@ public class Produto {
 	public List<Caracteristica> getoutrasCaracteristicas() {
 		return outrasCaracteristicas;
 	}
-	public Produto(String nome, Double valor,
+	public Produto(Usuario dono,String nome, Double valor,
 			Integer quantidade, String descricao, Categoria categoria, List<Caracteristica> caracteristicas,List<Caracteristica> outrascaracteristicas) {
 		Assert.notNull(nome, "Nome não pode ser nulo");
 		Assert.notNull(valor, "o Valor não pode ser nulo");
@@ -96,10 +113,62 @@ public class Produto {
 		this.categoria = categoria;
 		this.caracteristicas = caracteristicas;
 		this.outrasCaracteristicas = outrascaracteristicas;
+		this.dono = dono;
 	}
 	
 	@Deprecated
 	public Produto() {	}
+
+	public void associa(Set<String> links) {
+		Set<ImagemProduto> imagens = links.stream().map(link -> new ImagemProduto(this,link))
+		.collect(Collectors.toSet());
+		this.imagens.addAll(imagens);
+	}
+
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", nome=" + nome + ", valor=" + valor + ", quantidade=" + quantidade
+				+ ", descricao=" + descricao + ", categoria=" + categoria + ", dataCadastro=" + dataCadastro
+				+ ", caracteristicas=" + caracteristicas + ", outrasCaracteristicas=" + outrasCaracteristicas
+				+ ", imagens=" + imagens + ", dono=" + dono + "]";
+	}
+
+	public List<Caracteristica> getOutrasCaracteristicas() {
+		return outrasCaracteristicas;
+	}
+
+	public Set<ImagemProduto> getImagens() {
+		return imagens;
+	}
+
+	public boolean pertenceAoUsuario(Usuario possivelDono) {
+		return this.dono.equals(possivelDono);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 	
 	
 }
