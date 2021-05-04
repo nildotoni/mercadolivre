@@ -118,7 +118,7 @@ public class Produto {
 	
 	@Deprecated
 	public Produto() {	}
-
+	
 	public void associa(Set<String> links) {
 		Set<ImagemProduto> imagens = links.stream().map(link -> new ImagemProduto(this,link))
 		.collect(Collectors.toSet());
@@ -149,7 +149,10 @@ public class Produto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((dono == null) ? 0 : dono.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((outrasCaracteristicas == null) ? 0 : outrasCaracteristicas.hashCode());
 		return result;
 	}
 
@@ -162,13 +165,29 @@ public class Produto {
 		if (getClass() != obj.getClass())
 			return false;
 		Produto other = (Produto) obj;
+		if (dono == null) {
+			if (other.dono != null)
+				return false;
+		} else if (!dono.equals(other.dono))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (outrasCaracteristicas == null) {
+			if (other.outrasCaracteristicas != null)
+				return false;
+		} else if (!outrasCaracteristicas.equals(other.outrasCaracteristicas))
+			return false;
 		return true;
 	}
-	
+
+
 	
 }

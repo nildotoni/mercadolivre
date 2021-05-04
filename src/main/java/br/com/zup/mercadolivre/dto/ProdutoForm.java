@@ -13,12 +13,12 @@ import javax.validation.constraints.Size;
 
 import br.com.zup.mercadolivre.model.Produto;
 import br.com.zup.mercadolivre.model.Usuario;
+import br.com.zup.mercadolivre.repository.CaracteristicaRepository;
 import br.com.zup.mercadolivre.repository.UsuarioRepository;
 import io.jsonwebtoken.lang.Assert;
-import br.com.zup.mercadolivre.controller.CaracteristicaRepository;
 import br.com.zup.mercadolivre.model.Caracteristica;
 import br.com.zup.mercadolivre.model.Categoria;
-
+//4
 public class ProdutoForm {
 
 	@NotNull
@@ -71,11 +71,13 @@ public class ProdutoForm {
 	}
 
 	public List<Caracteristica> listaCaracteristicas( ArrayList<Long> caracteristicas, CaracteristicaRepository cr) {
-
+		//1	
 		List<Caracteristica> listaCaracteristicas = new ArrayList<>();
 		for (int i = 0; i < caracteristicas.size(); i++) {
+			//1
 			Optional<Caracteristica> c = cr.findById(caracteristicas.get(i));
 			if (c.isPresent()) {
+				//1
 				listaCaracteristicas.add(c.get());
 			}
 		}
@@ -83,6 +85,7 @@ public class ProdutoForm {
 	}
 
 	public Produto converter(CaracteristicaRepository cr, EntityManager em, UsuarioRepository ur) {
+		//1
 		Optional<Usuario> dono = ur.findByEmail("nildo@email.com");
 		List<Caracteristica> listaCaracteristicas = listaCaracteristicas(caracteristicas, cr);
 		List<Caracteristica> listaOutrasCaracteristicas = listaCaracteristicas(outrascaracteristicas, cr);

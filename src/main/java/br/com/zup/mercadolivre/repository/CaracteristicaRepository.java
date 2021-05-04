@@ -1,4 +1,4 @@
-package br.com.zup.mercadolivre.controller;
+package br.com.zup.mercadolivre.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
