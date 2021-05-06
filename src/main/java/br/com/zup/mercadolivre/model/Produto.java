@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -20,6 +21,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.zup.mercadolivre.dto.DetalheProdutoCaracteristica;
+import br.com.zup.mercadolivre.dto.DetalheProdutoOpinioes;
 import io.jsonwebtoken.lang.Assert;
 
 @Entity
@@ -28,82 +31,46 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank
 	private String nome;
-	@NotNull 
+	@NotNull
 	private Double valor;
-	@NotNull 
+	@NotNull
 	private Integer quantidade;
-	@NotBlank @Length(max=1000) 
+	@NotBlank
+	@Length(max = 1000)
 	private String descricao;
-	
+
 	@ManyToOne
 	private Categoria categoria;
-	
+
 	private LocalDateTime dataCadastro = LocalDateTime.now();
-	
+
 	@ManyToMany
 	private List<Caracteristica> caracteristicas;
-	
+
 	@ManyToMany
 	private List<Caracteristica> outrasCaracteristicas;
-	
+
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
 	private Set<ImagemProduto> imagens = new HashSet<>();
-	
+
 	@NotNull
 	@Valid
 	@ManyToOne
 	private Usuario dono;
-	
-	public Usuario getDono() {
-		return dono;
-	}
 
-	public Long getId() {
-		return id;
-	}
-	
-	public String getNome() {
-		return nome;
-	}
 
-	public Double getValor() {
-		return valor;
-	}
-
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public LocalDateTime getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public List<Caracteristica> getCaracteristicas() {
-		return caracteristicas;
-	}
-	public List<Caracteristica> getoutrasCaracteristicas() {
-		return outrasCaracteristicas;
-	}
-	public Produto(Usuario dono,String nome, Double valor,
-			Integer quantidade, String descricao, Categoria categoria, List<Caracteristica> caracteristicas,List<Caracteristica> outrascaracteristicas) {
+	public Produto(Usuario dono, String nome, Double valor, Integer quantidade, String descricao, Categoria categoria,
+			List<Caracteristica> caracteristicas, List<Caracteristica> outrascaracteristicas) {
 		Assert.notNull(nome, "Nome não pode ser nulo");
 		Assert.notNull(valor, "o Valor não pode ser nulo");
 		Assert.isTrue(valor > 0, "Quantidade não pode ser menor que zero");
 		Assert.isTrue(quantidade > 0, "Quantidade não pode ser menor que zero");
-		Assert.notNull(categoria,"Categoria não pode ser nulo");
-		Assert.notNull(caracteristicas,"Caracteristicas não pode ser nulo");
-		Assert.isTrue(caracteristicas.size() >= 3,"Não pode ter menos que 3 caracteristicas");
+		Assert.notNull(categoria, "Categoria não pode ser nulo");
+		Assert.notNull(caracteristicas, "Caracteristicas não pode ser nulo");
+		Assert.isTrue(caracteristicas.size() >= 3, "Não pode ter menos que 3 caracteristicas");
 		Assert.isTrue(descricao.length() <= 1000, "Descrição não pode ser maior que 1000");
 		Assert.notNull(outrascaracteristicas, "Outras Categorias não pode ser nula");
 		this.nome = nome;
@@ -115,13 +82,14 @@ public class Produto {
 		this.outrasCaracteristicas = outrascaracteristicas;
 		this.dono = dono;
 	}
-	
+
 	@Deprecated
-	public Produto() {	}
-	
+	public Produto() {
+	}
+
 	public void associa(Set<String> links) {
-		Set<ImagemProduto> imagens = links.stream().map(link -> new ImagemProduto(this,link))
-		.collect(Collectors.toSet());
+		Set<ImagemProduto> imagens = links.stream().map(link -> new ImagemProduto(this, link))
+				.collect(Collectors.toSet());
 		this.imagens.addAll(imagens);
 	}
 
@@ -133,14 +101,9 @@ public class Produto {
 				+ ", imagens=" + imagens + ", dono=" + dono + "]";
 	}
 
-	public List<Caracteristica> getOutrasCaracteristicas() {
-		return outrasCaracteristicas;
-	}
+	
 
-	public Set<ImagemProduto> getImagens() {
-		return imagens;
-	}
-
+	
 	public boolean pertenceAoUsuario(Usuario possivelDono) {
 		return this.dono.equals(possivelDono);
 	}
@@ -188,6 +151,67 @@ public class Produto {
 		return true;
 	}
 
+	public <T> Set<T> mapeiaImagens(Function<ImagemProduto, T> funcaoMapeadora) {
 
+		return this.imagens.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapeiaCaracteristicas(Function<Caracteristica, T> funcaoMapeadora) {
+
+		return this.caracteristicas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public <T> Set<T> mapeiaOutrasCaracteristicas(Function<Caracteristica, T> funcaoMapeadora) {
+
+		return this.outrasCaracteristicas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public Double getValor() {
+		return valor;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public List<Caracteristica> getCaracteristicas() {
+		return caracteristicas;
+	}
+
+	public List<Caracteristica> getOutrasCaracteristicas() {
+		return outrasCaracteristicas;
+	}
+
+	public Set<ImagemProduto> getImagens() {
+		return imagens;
+	}
+
+	public Usuario getDono() {
+		return dono;
+	}
+
+
+
+	
 	
 }

@@ -1,5 +1,7 @@
 package br.com.zup.mercadolivre.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +25,8 @@ public class Pergunta {
 	
 	@ManyToOne @NotNull @Valid
 	private Usuario usuario;
+	
+	private LocalDateTime data = LocalDateTime.now();
 
 	public Long getId() {
 		return id;

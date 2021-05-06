@@ -56,10 +56,6 @@ public class Opiniao {
 	@Deprecated
 	public Opiniao() {	}
 
-	public Long getId() {
-		return id;
-	}
-
 	public int getNota() {
 		return nota;
 	}
@@ -72,12 +68,16 @@ public class Opiniao {
 		return descricao;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public String getUsuario() {
+		return usuario.getUsername();
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public String getProduto() {
+		return produto.getNome();
+	}
+
+	public Long getId() {
+		return id;
 	}
 	
 	}
