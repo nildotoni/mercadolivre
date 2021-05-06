@@ -210,6 +210,11 @@ public class Produto {
 		return dono;
 	}
 
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+
 
 
 	
